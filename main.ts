@@ -27,8 +27,11 @@ function crossCatch () {
     }
 }
 input.onButtonPressed(Button.A, function () {
-    active = false
-    onetime = true
+    if (active > 0) {
+        active += -1
+    } else {
+        active = 3
+    }
 })
 function barShift () {
     index3 = randint(0, 1)
@@ -138,7 +141,11 @@ function backforth () {
     }
 }
 input.onButtonPressed(Button.B, function () {
-    active = true
+    if (active < 3) {
+        active += 1
+    } else {
+        active = 0
+    }
 })
 function helix () {
     if (onetime) {
@@ -207,7 +214,7 @@ let index3 = 0
 let index2 = 0
 let I: number[] = []
 let onetime = false
-let active = false
+let active = 0
 let lock: boolean[] = []
 lock = [
 false,
@@ -216,23 +223,24 @@ false,
 false,
 false
 ]
-active = false
+active = 0
 onetime = true
 basic.forever(function () {
-    while (active == false) {
+    while (active == 0) {
         backforth()
     }
     basic.clearScreen()
-    while (active == true) {
+    while (active == 1) {
         crossCatch()
     }
     basic.clearScreen()
-    while (active == false) {
+    while (active == 2) {
         barShift()
     }
     basic.clearScreen()
-    while (active == true) {
+    while (active == 3) {
         helix()
     }
+    onetime = true
     basic.clearScreen()
 })
